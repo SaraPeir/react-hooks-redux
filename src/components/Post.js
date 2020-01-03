@@ -3,9 +3,12 @@ import React, { useEffect } from "react";
 import { getData } from "../redux/actions/index";
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
+// useSelector does not re-render the component if it (useSelector) returns the same prior value
+
 
 const Post = () => {
   const data = useSelector(state => state.data);
+  console.log('DATA', data);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,6 +23,12 @@ const Post = () => {
   );
 };
 
-export default Post;
+export default React.memo(Post);
+
+// unlike connect(), useSelector() does not prevent the component from re-rendering 
+// due to its parent re-rendering, even if the component's props did not change.
+
+// If further performance optimizations are necessary, 
+// you may consider wrapping your function component in React.memo()
 
 
